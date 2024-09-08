@@ -1,0 +1,71 @@
+﻿@page
+@model Projeto_RazorPage_Padaria.Pages.Sales.IndexModel
+
+@{
+    ViewData["Title"] = "Index";
+}
+<div class="container-fluid bg-dark">
+<h2 class="text-light mt-2">Sellings</h2>
+    <div class="flex-row m-3 d-flex flex-flow-reverse justify-content-end">
+    <div class="p-2">
+            <button class="
+    btn btn-success">
+                <a class="link-light" asp-page="Create"> <i class="bi bi-cart"></i> Create New</a>
+            </button>
+    </div>
+            
+</div>
+
+
+   
+<table class="table table-striped table-dark">
+    <thead>
+        <tr>
+            <th>
+                Id
+            </th>
+            <th>
+                Customer
+            </th>
+            <th>
+                Total Price
+            </th>
+            <th>
+                Options
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model.Sales) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Id)
+            </td>
+            <td>
+                 @Html.DisplayFor(modelItem => item.Buyer!.Name)
+            </td>
+                <td>
+                    @item.GetFinalPrice()
+                </td>
+            <td>
+                        <button class="btn btn-edit btn-warning">
+                            <a class="link-light" asp-page="./Edit" asp-route-id="@item.Id">
+                                <i class="bi bi-gear"></i>
+                            </a>
+                        </button>|
+                        <button class="btn btn-secondary">
+                            <a class="link-light" asp-page="./Details" asp-route-id="@item.Id">
+                                <i class="bi bi-zoom-in"></i>
+                            </a>
+                        </button>|
+                        <button class="btn btn-danger">
+                            <a class="link-light" asp-page="./Delete" asp-route-id="@item.Id">
+                                <i class="bi bi-trash"></i>
+                            </a>
+                        </button>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+</div>
