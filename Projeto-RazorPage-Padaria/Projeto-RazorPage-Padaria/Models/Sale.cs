@@ -1,13 +1,14 @@
-﻿using Projeto_RazorPage_Padaria.Enumerations;
+﻿using Projeto_RazorPage_Padaria.Models;
+using Projeto_RazorPage_Padaria.Enumerations;
 
-namespace Projeto_RazorPage_Padaria.Entities
+namespace Projeto_RazorPage_Padaria.Models
 {
     public class Sale
-    { 
+    {
         public int? Id { get; set; }
-        public Costumer? Buyer
+        public Costomers? Buyer
         {
-            get;set;
+            get; set;
         }
         public List<SalesItem> ProductList { get; set; } = new();
         public PaymentForm PaymentForm { get; set; }
@@ -19,27 +20,27 @@ namespace Projeto_RazorPage_Padaria.Entities
         {
             string items = "";
 
-            foreach (Product item in this.ProductList)
+            foreach (Product item in ProductList)
             {
                 items += "" + item.ToString() + "\n";
             }
-            return $"Id: {this.Id}\nBuyer:{this.Buyer}\nProductList:{items}\n Payment Form: {this.PaymentForm}\nFinal Price: {GetFinalPrice()}";
+            return $"Id: {Id}\nBuyer:{Buyer}\nProductList:{items}\n Payment Form: {PaymentForm}\nFinal Price: {GetFinalPrice()}";
         }
 
         public string GenerateCoupom()
         {
             string items = "";
 
-            foreach (Product item in this.ProductList)
+            foreach (Product item in ProductList)
             {
                 items += "" + item.ToString() + "\n";
             }
-            return $"Cupom Fiscal:\nBuyer:{this.Buyer.ToString()}\nProductList:{items}\nPayment Form: {this.PaymentForm}\nFinal Price: {GetFinalPrice()}";
+            return $"Cupom Fiscal:\nBuyer:{Buyer.ToString()}\nProductList:{items}\nPayment Form: {PaymentForm}\nFinal Price: {GetFinalPrice()}";
         }
 
         public double GetFinalPrice()
         {
-            double finalPrice = this.ProductList.Sum(x => x.Price * x.Quantity);
+            double finalPrice = ProductList.Sum(x => x.Price * x.Quantity);
 
             return finalPrice;
         }

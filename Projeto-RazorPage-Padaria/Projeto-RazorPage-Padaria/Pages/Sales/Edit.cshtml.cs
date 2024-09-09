@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Projeto_RazorPage_Padaria.Data;
-using Projeto_RazorPage_Padaria.Entities;
+using Projeto_RazorPage_Padaria.Models;
 using Projeto_RazorPage_Padaria.Repository;
 
 namespace Projeto_RazorPage_Padaria.Pages.Sales

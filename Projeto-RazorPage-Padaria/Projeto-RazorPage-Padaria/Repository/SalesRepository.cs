@@ -1,6 +1,7 @@
 ﻿using Npgsql;
-using Projeto_RazorPage_Padaria.Entities;
+using Projeto_RazorPage_Padaria.Models;
 using Projeto_RazorPage_Padaria.Enumerations;
+using Projeto_RazorPage_Padaria.Models;
 using System;
 
 
@@ -117,7 +118,7 @@ namespace Projeto_RazorPage_Padaria.Repository
                             {
                                 Id = reader.GetInt32(0),
                                 PaymentForm = form,
-                                Buyer = new Costumer()
+                                Buyer = new Costomers()
                                 {
                                     Id = reader.GetInt32(2),
                                     Document = reader.GetString(3),
@@ -204,7 +205,7 @@ namespace Projeto_RazorPage_Padaria.Repository
                         {
                             Id = reader.GetInt32(0),
                             PaymentForm = form,
-                            Buyer = new Costumer()
+                            Buyer = new Costomers()
                             {
                                 Id = reader.GetInt32(2),
                                 Document = reader.GetString(3),
