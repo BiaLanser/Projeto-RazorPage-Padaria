@@ -1,0 +1,45 @@
+﻿@page
+@model Projeto_RazorPage_Padaria.Pages.Costumers.EditModel
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit</h1>
+
+<h4>Costumer</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Costumer.Id" />
+            <div class="form-group">
+                <label asp-for="Costumer.Name" class="control-label"></label>
+                <input asp-for="Costumer.Name" class="form-control" />
+                <span asp-validation-for="Costumer.Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Costumer.Document" class="control-label"></label>
+                <input asp-for="Costumer.Document" class="form-control" />
+                <span asp-validation-for="Costumer.Document" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Costumer.Points" class="control-label"></label>
+                <input asp-for="Costumer.Points" class="form-control" />
+                <span asp-validation-for="Costumer.Points" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-page="./Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

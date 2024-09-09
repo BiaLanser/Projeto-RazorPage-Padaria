@@ -1,3 +1,6 @@
+using Microsoft.EntityFrameworkCore;
+using Projeto_RazorPage_Padaria.Data;
+
 namespace Projeto_RazorPage_Padaria
 {
     public class Program
@@ -5,11 +8,16 @@ namespace Projeto_RazorPage_Padaria
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
+            builder.Services.AddDbContext<ConnectionDB>(options =>
 
-            // Add services to the container.
+
+                options.UseNpgsql(builder.Configuration.GetConnectionString("ConnectionDB") ?? throw new InvalidOperationException("Connection string 'AulaDb' not found.")));
+
+            builder.Services.AddControllers();
+
             builder.Services.AddRazorPages();
-
             var app = builder.Build();
+
 
             // Configure the HTTP request pipeline.
             if (!app.Environment.IsDevelopment())
