@@ -9,13 +9,14 @@ namespace Projeto_RazorPage_Padaria
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
-            builder.Services.AddDbContext<Projeto_RazorPage_PadariaContext>(options =>
-                options.UseNpgsql(builder.Configuration.GetConnectionString("Projeto_RazorPage_PadariaContext") ?? throw new InvalidOperationException("Connection string 'Projeto_RazorPage_PadariaContext' not found.")));
+            builder.Services.AddDbContext<ConnectionDB>(options =>
 
-            // Add services to the container.
+
+                options.UseNpgsql(builder.Configuration.GetConnectionString("ConnectionDB") ?? throw new InvalidOperationException("Connection string 'AulaDb' not found.")));
+
+            builder.Services.AddControllers();
+
             builder.Services.AddRazorPages();
-
-            builder.Services.AddSingleton<SaleRepository>();
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
