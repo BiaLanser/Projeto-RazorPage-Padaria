@@ -1,6 +1,7 @@
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using Projeto_RazorPage_Padaria.Data;
-
+using Projeto_RazorPage_Padaria.Repository;
 namespace Projeto_RazorPage_Padaria
 {
     public class Program
@@ -17,7 +18,6 @@ namespace Projeto_RazorPage_Padaria
 
             builder.Services.AddRazorPages();
             var app = builder.Build();
-
 
             // Configure the HTTP request pipeline.
             if (!app.Environment.IsDevelopment())
