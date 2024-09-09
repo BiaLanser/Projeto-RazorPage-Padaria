@@ -15,8 +15,17 @@ namespace Projeto_RazorPage_Padaria.Pages.Sales
 {
     public class CreateModel : PageModel
     {
-        private SaleRepository _salesRepository; 
+        private SaleRepository _salesRepository;
+        public PaymentForm SelectedPaymentForm { get; set; }
         public IEnumerable<SelectListItem> PaymentFormsAvailable { get; set; }
+        public List<Costumer> CostumerList { get; set; } = new List<Costumer>()
+        {
+            new Costumer { Id = 8, Name = "Pedro", Document = "123", Points = 0 },
+            new Costumer { Id = 9, Name = "Juão", Document = "12345", Points = 0 },
+            new Costumer { Id = 11, Name = "Mabily", Document = "12345", Points = 5 },
+            new Costumer { Id = 10, Name = "Maikon", Document = "12345", Points = 10 },
+            new Costumer { Id = 12, Name = "Consumidor Final", Document = "0", Points = 0 }
+        };
         public CreateModel(SaleRepository context)
         {
             PaymentFormsAvailable = EnumUtilities.GetSelectList<PaymentForm>();

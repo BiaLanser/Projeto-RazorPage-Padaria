@@ -45,7 +45,7 @@
                  @Html.DisplayFor(modelItem => item.Buyer!.Name)
             </td>
                 <td>
-                    @item.GetFinalPrice()
+                    @item.GetFinalPrice().ToString("f2")
                 </td>
             <td>
                         <button class="btn btn-edit btn-warning">
