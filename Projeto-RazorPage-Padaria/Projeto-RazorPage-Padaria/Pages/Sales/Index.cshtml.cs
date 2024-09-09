@@ -4,8 +4,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.EntityFrameworkCore;
-using Projeto_RazorPage_Padaria.Data;
 using Projeto_RazorPage_Padaria.Models;
 using Projeto_RazorPage_Padaria.Repository;
 

@@ -1,8 +1,6 @@
 ﻿using Npgsql;
 using Projeto_RazorPage_Padaria.Models;
 using Projeto_RazorPage_Padaria.Enumerations;
-using Projeto_RazorPage_Padaria.Models;
-using System;
 
 
 namespace Projeto_RazorPage_Padaria.Repository
