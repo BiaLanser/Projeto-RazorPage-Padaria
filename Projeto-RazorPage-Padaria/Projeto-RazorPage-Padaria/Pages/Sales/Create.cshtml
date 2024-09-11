@@ -5,16 +5,16 @@
     ViewData["Title"] = "Create";
 }
 <style>
+    tr{
+        transition:0.5s;
+    }
     tr:hover{
         cursor:pointer;
-        background-color: #bdc3c7;
-    }
-
-    tr{
-        transition:0.2s;
+        background-color: #fofofo;
     }
 </style>
-<div class="container-fluid bg-dark">
+
+<div class="container bg-dark">
 <h4 class="text-light">New Sale</h4>
 <hr class="text-light"/>
     <div class="col">
@@ -25,7 +25,7 @@
                     <div class="form-group">
                         <label asp-for="Sales.Buyer.Name!" class="control-label">Customer:</label>
                         <div class="input-group mb-3">
-                            <input type="text" id="customer-id" class="form-control disabled" name="CustomerId" disabled placeholder="Customer" aria-label="Customer" aria-describedby="basic-addon2">
+                            <input type="text" id="customer-id" class="form-control disabled" name="CustomerId" readonly placeholder="Customer" aria-label="Customer" aria-describedby="basic-addon2">
                             <div class="input-group-append">
                                 <button class="btn btn-outline-primary" type="button" data-bs-toggle="modal" data-bs-target="#customers-modal"><i class="bi bi-search"></i></button>
                             </div>
@@ -39,7 +39,7 @@
                     <div class="form-group">
                         <label asp-for="Sales.Buyer.Name!" class="control-label">Customer:</label>
                         <div class="input-group mb-3">
-                            <input type="text" id="customer-field" class="form-control disabled" disabled placeholder="Customer" aria-label="Customer" aria-describedby="basic-addon2">
+                            <input type="text" id="customer-field" class="form-control disabled" readonly placeholder="Customer" aria-label="Customer" aria-describedby="basic-addon2">
                             <div class="input-group-append">
                                 <button class="btn btn-outline-primary" type="button" data-bs-toggle="modal" data-bs-target="#customers-modal"><i class="bi bi-search"></i></button>
                             </div>
@@ -108,8 +108,7 @@
                         </table>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary">Save changes</button>
+                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
                     </div>
                 </div>
             </div>
@@ -118,12 +117,15 @@
 </div>
     <a asp-page="Index">Back to List</a>
 </div>
+</div>
 <script>
     function setSelectedObject(customer){
         const customerField = document.getElementById("customer-field");
         const customerId = document.getElementById("customer-id");
         customerField.value = "";
+        customerId.value = ""
         customerField.value = customer.name;
+        customerId.value = customer.id;
             var myModalEl = document.getElementById('customers-modal');
             var modal = bootstrap.Modal.getInstance(myModalEl); // Get the existing modal instance
             if (modal) {
@@ -135,6 +137,34 @@
             }
 
     }
+    
+    const changeSelection = (row)=>{
+
+    }
+
+
+
+
+
+    class Products{
+        id,
+        name,
+        price,
+        quantity
+
+         constructor(id, name, price, quantity){
+            this.id = id
+            this.name = name
+            this.price = price
+            this.quantity = quantity
+        }
+
+        getTotalPrice(){
+            return price * quantity;
+        }
+
+    }
+
 
     class Customer{
         id
