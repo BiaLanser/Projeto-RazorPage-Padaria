@@ -18,20 +18,22 @@ namespace Projeto_RazorPage_Padaria.Pages.Sales
     public class CreateModel : PageModel
     {
         private SaleRepository _salesRepository;
-        private readonly Projeto_RazorPage_Padaria.Data.ConnectionDB _customerClient;
+        private readonly Projeto_RazorPage_Padaria.Data.ConnectionDB _context;
         public PaymentForm SelectedPaymentForm { get; set; }
         public IEnumerable<SelectListItem> PaymentFormsAvailable { get; set; }
         public List<Costomers> CostumerList { get; set; } = new List<Costomers>();
-        public CreateModel(SaleRepository context, Projeto_RazorPage_Padaria.Data.ConnectionDB customerClient)
+        public List<Product> ProductList = new();
+        public CreateModel(SaleRepository context, Projeto_RazorPage_Padaria.Data.ConnectionDB contextDb)
         {
             PaymentFormsAvailable = EnumUtilities.GetSelectList<PaymentForm>();
             _salesRepository = context;
-            _customerClient = customerClient;
+            _context = contextDb;
         }
 
         public IActionResult OnGet()
         {
-            CostumerList = _customerClient.Costumers.AsNoTracking().ToList();
+            CostumerList = _context.Costumers.AsNoTracking().ToList();
+            ProductList = _context.Product.AsNoTracking().ToList();
             return Page();
         }
 

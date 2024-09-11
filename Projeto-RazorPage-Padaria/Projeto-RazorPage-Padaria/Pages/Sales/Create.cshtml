@@ -57,7 +57,33 @@
                     </div>
                 </div>
             </div>
-            <div class="form-group">
+            <div class="container mt-5">
+                <h3>Selected Products</h3>
+                <table id="mainTable" class="table table-dark">
+                    <thead>
+                        <tr>
+                            <th>Product</th>
+                            <th>Quantity</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        
+                    </tbody>
+                </table>
+                <div class="row">
+                    <div class="col-sm-3 mt-4 mb-4">
+                    <div class="form-group">
+                        <label class="text-light">Total Price</label>
+                        <input class="form-control disabled" id="product-price" disabled />
+                    </div>
+                    </div>
+                </div>
+                <!-- Button to open modal -->
+                <button id="openModal" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#productModal">
+                    Select Products
+                </button>
+            </div>
+            <div class="form-group mt-3 mb-5">
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>
         </form>
@@ -113,73 +139,153 @@
                 </div>
             </div>
         </div>
+        <div class="modal fade" id="productModal" tabindex="-1" role="dialog" aria-labelledby="modalTitle" aria-hidden="true">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content bg-dark">
+                    <div class="modal-header">
+                        <h5 class="modal-title text-light" id="modalTitle">Select Products</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <table class="table table-striped table-dark">
+                            <thead>
+                                <tr>
+                                    <th>Select</th>
+                                    <th>Product</th>
+                                    <th>Quantity</th>
+                                    <th>Price</th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var product in Model.ProductList)
+                                {
+                                    <tr>
+                                        <td><input type="checkbox" class="product-check" data-id="@product.Id" data-name="@product.Description" data-price="@product.Price"/></td>
+                                        <td>@product.Description</td>
+                                        <td>@product.Price</td>
+                                        <td><input type="number" class="form-control product-quantity" data-id="@product.Id" disabled min="1" /></td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" id="confirmSelection" class="btn btn-success" data-bs-dismiss="modal">Confirm Selection</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
         <div>
 </div>
     <a asp-page="Index">Back to List</a>
 </div>
 </div>
 <script>
-    function setSelectedObject(customer){
-        const customerField = document.getElementById("customer-field");
-        const customerId = document.getElementById("customer-id");
-        customerField.value = "";
-        customerId.value = ""
-        customerField.value = customer.name;
-        customerId.value = customer.id;
-            var myModalEl = document.getElementById('customers-modal');
-            var modal = bootstrap.Modal.getInstance(myModalEl); // Get the existing modal instance
+    document.addEventListener('DOMContentLoaded', function () {
+        class Customer {
+            constructor(id, name, points, document) {
+                this.id = id;
+                this.name = name;
+                this.points = points;
+                this.document = document;
+            }
+        }
+
+        function setSelectedObject(customer) {
+            const customerField = document.getElementById("customer-field");
+            const customerId = document.getElementById("customer-id");
+            customerField.value = customer.name;
+            customerId.value = customer.id;
+
+            let myModalEl = document.getElementById('customers-modal');
+            let modal = bootstrap.Modal.getInstance(myModalEl);
             if (modal) {
-                modal.hide(); // Hide the modal
+                modal.hide();
             } else {
-                // If there's no existing instance, create a new one and hide it
-                var newModal = new bootstrap.Modal(myModalEl);
+                let newModal = new bootstrap.Modal(myModalEl);
                 newModal.hide();
             }
-
-    }
-    
-    const changeSelection = (row)=>{
-
-    }
-
-
-
-
-
-    class Products{
-        id,
-        name,
-        price,
-        quantity
-
-         constructor(id, name, price, quantity){
-            this.id = id
-            this.name = name
-            this.price = price
-            this.quantity = quantity
         }
 
-        getTotalPrice(){
-            return price * quantity;
+        let selectedProducts = [];
+        let confirmButton = document.getElementById('confirmSelection');
+        let mainTableBody = document.querySelector('#mainTable tbody');
+        let priceField = document.getElementById("product-price");
+        let totalPrice = 0.00;
+
+        function updateProductChecks() {
+            let productChecks = document.querySelectorAll('.product-check');
+            productChecks.forEach(function (checkbox) {
+                checkbox.addEventListener('change', function () {
+                    let productId = this.dataset.id;
+                    let quantityField = document.querySelector('.product-quantity[data-id="' + productId + '"]');
+                    if (this.checked) {
+                        quantityField.disabled = false;
+                    } else {
+                        quantityField.disabled = true;
+                    }
+                });
+            });
         }
 
-    }
+        confirmButton.addEventListener('click', function () {
+            selectedProducts = [];
+            totalPrice = 0.00; // Reset total price before recalculating
 
+            let productChecks = document.querySelectorAll('.product-check');
+            productChecks.forEach(function (checkbox) {
+                if (checkbox.checked) {
+                    let productName = checkbox.dataset.name;
+                    let productId = checkbox.dataset.id;
+                    let productPrice = parseFloat(checkbox.dataset.price);
+                    let quantityField = document.querySelector('.product-quantity[data-id="' + productId + '"]');
+                    let quantity = parseInt(quantityField.value) || 0; // Handle empty quantity
 
-    class Customer{
-        id
-        name
-        document
-        points
+                    if (quantity > 0) {
+                        selectedProducts.push({
+                            id: productId,
+                            name: productName,
+                            price: productPrice,
+                            quantity: quantity
+                        });
+                    }
+                }
+            });
 
-        constructor(id, name, points, document){
-            this.id = id
-            this.name = name
-            this.points = points
-            this.document = document
+            updateMainTable(selectedProducts);
+            updateTotalPrice(selectedProducts);
+        });
+
+        function updateMainTable(products) {
+            while (mainTableBody.firstChild) {
+                mainTableBody.removeChild(mainTableBody.firstChild);
+            }
+
+            products.forEach(function (product) {
+                let row = document.createElement('tr');
+                row.innerHTML = '<td>' + product.name + '</td><td>' + product.quantity + '</td>';
+                mainTableBody.appendChild(row);
+            });
         }
-    }
+
+        function updateTotalPrice(products) {
+            totalPrice = 0.00; // Reset the total price before calculating
+            products.forEach(function (product) {
+                totalPrice += product.quantity * product.price;
+            });
+
+            // Update the total price field with the correct format
+            priceField.value = totalPrice.toFixed(2);
+        }
+
+        updateProductChecks();
+    });
 </script>
+
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
