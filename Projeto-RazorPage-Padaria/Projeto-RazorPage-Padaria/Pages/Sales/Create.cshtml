@@ -18,7 +18,7 @@
 <h4 class="text-light">New Sale</h4>
 <hr class="text-light"/>
     <div class="col">
-        <form method="post">
+        <form method="post" id="formCreateSale">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="row d-none">
                 <div class="col-6">
@@ -64,6 +64,7 @@
                         <tr>
                             <th>Product</th>
                             <th>Quantity</th>
+                            <th>Total</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -185,37 +186,59 @@
 </div>
 </div>
 <script>
+    const customerField = document.getElementById("customer-field");
+    const customerId = document.getElementById("customer-id");
+    class Customer {
+        constructor(id, name, points, document) {
+            this.id = id;
+            this.name = name;
+            this.points = points;
+            this.document = document;
+        }
+    }
+    function setSelectedObject(customer) {
+        customerField.value = customer.name;
+        customerId.value = customer.id;
+
+        let myModalEl = document.getElementById('customers-modal');
+        let modal = bootstrap.Modal.getInstance(myModalEl);
+        if (modal) {
+            modal.hide();
+        } else {
+            let newModal = new bootstrap.Modal(myModalEl);
+            newModal.hide();
+        }
+    }
     document.addEventListener('DOMContentLoaded', function () {
-        class Customer {
-            constructor(id, name, points, document) {
-                this.id = id;
-                this.name = name;
-                this.points = points;
-                this.document = document;
-            }
-        }
-
-        function setSelectedObject(customer) {
-            const customerField = document.getElementById("customer-field");
-            const customerId = document.getElementById("customer-id");
-            customerField.value = customer.name;
-            customerId.value = customer.id;
-
-            let myModalEl = document.getElementById('customers-modal');
-            let modal = bootstrap.Modal.getInstance(myModalEl);
-            if (modal) {
-                modal.hide();
-            } else {
-                let newModal = new bootstrap.Modal(myModalEl);
-                newModal.hide();
-            }
-        }
 
         let selectedProducts = [];
         let confirmButton = document.getElementById('confirmSelection');
         let mainTableBody = document.querySelector('#mainTable tbody');
         let priceField = document.getElementById("product-price");
+        const formSale = document.getElementById("formCreateSale")
         let totalPrice = 0.00;
+
+        formSale.addEventListener('submit', (event) => {
+            event.preventDefault()
+            saleInfo = {
+                id: customerId.value,
+                salesItems: selectedProducts
+            }
+            try{
+                $.ajax({
+                    type:'POST',
+                    url:'@Url.Page("Create", "OnPost")',
+                    data: JSON.stringify(saleInfo),
+                    success:(response) => {
+                        console.log("Success")
+                    }
+                })
+            }catch(ex){
+                console.log(ex.message)
+            }
+            
+        })
+
 
         function updateProductChecks() {
             let productChecks = document.querySelectorAll('.product-check');
@@ -224,8 +247,11 @@
                     let productId = this.dataset.id;
                     let quantityField = document.querySelector('.product-quantity[data-id="' + productId + '"]');
                     if (this.checked) {
+                        quantityField.value = '';
                         quantityField.disabled = false;
+                        
                     } else {
+                        quantityField.value = '';
                         quantityField.disabled = true;
                     }
                 });
@@ -267,7 +293,7 @@
 
             products.forEach(function (product) {
                 let row = document.createElement('tr');
-                row.innerHTML = '<td>' + product.name + '</td><td>' + product.quantity + '</td>';
+                row.innerHTML = '<td>' + product.name + '</td><td>' + product.quantity + '</td>' + '<td>' + (product.price * product.quantity).toFixed(2) + '</td>';
                 mainTableBody.appendChild(row);
             });
         }
