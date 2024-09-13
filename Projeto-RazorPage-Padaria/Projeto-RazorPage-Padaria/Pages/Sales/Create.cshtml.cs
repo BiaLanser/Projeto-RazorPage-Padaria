@@ -25,6 +25,9 @@ namespace Projeto_RazorPage_Padaria.Pages.Sales
         public IEnumerable<Microsoft.AspNetCore.Mvc.Rendering.SelectListItem> PaymentFormsAvailable { get; set; }
         public List<Costomers> CostumerList { get; set; } = new List<Costomers>();
         public List<Product> ProductList = new();
+
+        [BindProperty]
+        public SaleRequestModel SaleRequestModel { get; set; }
         public CreateModel(SaleRepository context, Projeto_RazorPage_Padaria.Data.ConnectionDB contextDb)
         {
             PaymentFormsAvailable = EnumUtilities.GetSelectList<PaymentForm>();
@@ -43,18 +46,17 @@ namespace Projeto_RazorPage_Padaria.Pages.Sales
         public Sale Sales { get; set; } = default!;
 
         // To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD
-        public async Task<IActionResult> OnPostAsync(SaleRequestModel salesItem)
+        [System.Web.Mvc.HttpPost]
+        public async Task<IActionResult> OnPostAsync()
         {
             using var reader = new StreamReader(Request.Body);
             var body = await reader.ReadToEndAsync();
-            Console.WriteLine(salesItem.ToString());
+            var customerId = SaleRequestModel.CustomerId;
+            var salesItems = SaleRequestModel.SalesItems;
 
-            // Deserialize JSON to your SaleRequestModel
-            Console.WriteLine($"CustomerId: {salesItem!.CustomerId}");
-            Console.WriteLine($"PaymentForm: {salesItem.PaymentForm}");
-            Console.WriteLine($"SalesItems Count: {salesItem.SalesItems.Count}");
+            Console.WriteLine(customerId);
 
-            if (!ModelState.IsValid)
+          /*  if (!ModelState.IsValid)
             {
                 Console.WriteLine(JsonConvert.SerializeObject(ModelState));
                 return Page();
@@ -81,7 +83,7 @@ namespace Projeto_RazorPage_Padaria.Pages.Sales
                 }
             }
 
-            
+            */
 
             return RedirectToPage("./Index");
         }

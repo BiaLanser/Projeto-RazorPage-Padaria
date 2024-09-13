@@ -15,6 +15,7 @@ namespace Projeto_RazorPage_Padaria
                 options.UseNpgsql(builder.Configuration.GetConnectionString("ConnectionDB") ?? throw new InvalidOperationException("Connection string 'AulaDb' not found.")));
 
             builder.Services.AddControllers();
+            builder.Services.AddAntiforgery();
             builder.Services.AddSingleton<SaleRepository>();
             builder.Services.AddRazorPages();
             var app = builder.Build();

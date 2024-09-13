@@ -3,6 +3,7 @@
 
 @{
     ViewData["Title"] = "Create";
+
 }
 <style>
     tr{
@@ -19,13 +20,14 @@
 <hr class="text-light"/>
     <div class="col">
         <form method="post" id="formCreateSale">
+            @Html.AntiForgeryToken()
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="row d-none">
                 <div class="col-6">
                     <div class="form-group">
                         <label asp-for="Sales.Buyer.Name!" class="control-label">Customer:</label>
                         <div class="input-group mb-3">
-                            <input type="text" id="customer-id" class="form-control disabled" name="CustomerId" readonly placeholder="Customer" aria-label="Customer" aria-describedby="basic-addon2">
+                            <input type="text" id="customer-id" asp-for="SaleRequestModel.CustomerId" class="form-control disabled" name="CustomerId" readonly placeholder="Customer" aria-label="Customer" aria-describedby="basic-addon2">
                             <div class="input-group-append">
                                 <button class="btn btn-outline-primary" type="button" data-bs-toggle="modal" data-bs-target="#customers-modal"><i class="bi bi-search"></i></button>
                             </div>
@@ -51,7 +53,7 @@
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                     <div class="form-group">
                         <label asp-for="Sales.PaymentForm" class="control-label">Payment Form</label>
-                        <select asp-for="Sales.PaymentForm" id="paymentOption" class="form-control" asp-items="Model.PaymentFormsAvailable">
+                        <select asp-for="SaleRequestModel.PaymentForm" id="paymentOption" class="form-control" asp-items="Model.PaymentFormsAvailable">
                         </select>
                         <span asp-validation-for="Sales.PaymentForm" class="text-danger"></span>
                     </div>
@@ -232,14 +234,16 @@
                     quantity: product.quantity  
                 }))
             }
+            
             try{
+               
                 fetch('/Sales/Create', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
                         'RequestVerificationToken': document.querySelector('input[name="__RequestVerificationToken"]').value
                     },
-                    body: JSON.stringify(formData)
+                    body: JSON.stringify(saleInfo)
                 })
                     .then(response => {
                         if (response.ok) {
