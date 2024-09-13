@@ -6,7 +6,7 @@ namespace Projeto_RazorPage_Padaria.Models
     public class Product
     {
         [Column("id")]
-        public int? Id { get; set; }
+        public int Id { get; set; }
         [Column("description")]
         public string Description { get; set; }
         [Column("price")]

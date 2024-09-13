@@ -236,7 +236,7 @@
             }
             
             try{
-               
+                const notyf = new Notyf()
                 fetch('/Sales/Create', {
                     method: 'POST',
                     headers: {
@@ -247,10 +247,11 @@
                 })
                     .then(response => {
                         if (response.ok) {
-                            console.log("Success");
-                            // Handle success
+                            notyf.success("Sale Created")
                         } else {
-                            return response.text().then(text => { throw new Error(text); });
+                            return response.text().then(text => {notyf.error(`Something went wrong ${text}`) });
+                            
+                            
                         }
                     })
                     .catch(error => console.error("Fetch Error:", error));
@@ -294,10 +295,10 @@
 
                     if (quantity > 0) {
                         selectedProducts.push({
-                            id: productId,
+                            id: parseInt(productId),
                             description: productName,
-                            price: productPrice,
-                            quantity: quantity
+                            price: parseFloat(productPrice),
+                            quantity: parseInt(quantity)
                         });
                     }
                 }

@@ -12,7 +12,7 @@ using Projeto_RazorPage_Padaria.Enumerations.Utilities;
 using Projeto_RazorPage_Padaria.Models;
 using Projeto_RazorPage_Padaria.Repository;
 using Microsoft.EntityFrameworkCore;
-using Newtonsoft.Json;
+using System.Text.Json;
 using System.Web.Mvc;
 
 namespace Projeto_RazorPage_Padaria.Pages.Sales
@@ -51,19 +51,22 @@ namespace Projeto_RazorPage_Padaria.Pages.Sales
         {
             using var reader = new StreamReader(Request.Body);
             var body = await reader.ReadToEndAsync();
-            var customerId = SaleRequestModel.CustomerId;
-            var salesItems = SaleRequestModel.SalesItems;
-
-            Console.WriteLine(customerId);
-
-          /*  if (!ModelState.IsValid)
+            var customerOrder = System.Text.Json.JsonSerializer.Deserialize<SaleRequestModel>(body, new JsonSerializerOptions
             {
-                Console.WriteLine(JsonConvert.SerializeObject(ModelState));
+                PropertyNameCaseInsensitive = true
+            });
+            Console.WriteLine(customerOrder.CustomerId);
+
+           // Console.WriteLine(sale.CustomerId);
+
+            if(!ModelState.IsValid)
+            {
+               
                 return Page();
             }
             Sale sale = new Sale();
 
-            var customer = _context.Costumers.FirstOrDefault(c => c.Id == salesItem.CustomerId);
+            var customer = _context.Costumers.FirstOrDefault(c => c.Id == customerOrder.CustomerId);
             if(customer is null)
             {
                 throw new InvalidDataException("Customer must not be null");
@@ -71,8 +74,8 @@ namespace Projeto_RazorPage_Padaria.Pages.Sales
             else
             {
                 sale.Buyer = customer;
-                sale.ProductList = salesItem.SalesItems;
-                sale.PaymentForm = salesItem.PaymentForm ;
+                sale.ProductList = customerOrder.SalesItems;
+                sale.PaymentForm = customerOrder.PaymentForm ;
                 try
                 {
                     _salesRepository.Create(sale);
@@ -83,9 +86,7 @@ namespace Projeto_RazorPage_Padaria.Pages.Sales
                 }
             }
 
-            */
-
-            return RedirectToPage("./Index");
+            return RedirectToPage("/Sales/Index");
         }
     }
 }

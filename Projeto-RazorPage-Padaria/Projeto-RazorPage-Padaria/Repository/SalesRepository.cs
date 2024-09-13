@@ -24,11 +24,11 @@ namespace Projeto_RazorPage_Padaria.Repository
             {
                 t.Buyer.Id = 12;
             }
-            List<SalesItem> productsLackingId = t.ProductList.Where(x => x.Id is null).ToList();
+           /*List<SalesItem> productsLackingId = t.ProductList.Where(x => x.Id is null).ToList();
             if (productsLackingId.Count > 0) {
                 throw new InvalidDataException("There an item in the sale which doesn´t have an Id");
-            }
-            string insertSaleQuery = "insert into sales(customer.id, payment_form) values (@customerId, @paymentForm) returning id";
+            }*/
+            string insertSaleQuery = "insert into sales(customerid, payment_form) values (@customerId, @paymentForm) returning id";
             string insertSalesItemQuery = "insert into salesproducts(saleid, productid, quantity) values(@saleId, @productId, @quantity)";
             using (NpgsqlConnection connection = new(_connectionString))
             {
@@ -144,7 +144,7 @@ namespace Projeto_RazorPage_Padaria.Repository
                                 {
                                     Id = reader.GetInt32(0),
                                     Description = reader.GetString(1),
-                                    Price = reader.GetDouble(2),
+                                    Price = reader.GetFloat(2),
                                     Quantity = reader.GetInt32(3),
                                 });
                             }
