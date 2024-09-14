@@ -12,7 +12,6 @@ using Projeto_RazorPage_Padaria.Enumerations.Utilities;
 using Projeto_RazorPage_Padaria.Repository;
 using Microsoft.EntityFrameworkCore;
 using System.Text.Json;
-using System.Web.Mvc;
 
 namespace Projeto_RazorPage_Padaria.Pages.Sales
 {
@@ -45,7 +44,7 @@ namespace Projeto_RazorPage_Padaria.Pages.Sales
         public Sale Sales { get; set; } = default!;
 
         // To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD
-        [System.Web.Mvc.HttpPost]
+        [Microsoft.AspNetCore.Mvc.HttpPost]
         public async Task<IActionResult> OnPostAsync()
         {
             using var reader = new StreamReader(Request.Body);
@@ -78,14 +77,15 @@ namespace Projeto_RazorPage_Padaria.Pages.Sales
                 try
                 {
                     _salesRepository.Create(sale);
+                    return RedirectToPage("/Sales/Index");
                 }
-                catch (Exception ex) { 
-                    
-                
+                catch (Exception ex) {
+                    ModelState.AddModelError("", "An error occurred while creating the sale. Please try again.");
+                    return Page();
                 }
             }
 
-            return RedirectToPage("/Sales/Index");
+            
         }
     }
 }

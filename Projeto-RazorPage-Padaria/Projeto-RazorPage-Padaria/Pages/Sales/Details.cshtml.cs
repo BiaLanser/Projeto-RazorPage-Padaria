@@ -22,9 +22,9 @@ namespace Projeto_RazorPage_Padaria.Pages.Sales
 
         public Sale Sales { get; set; } = default!;
 
-        public async Task<IActionResult> OnGetAsync(int? id)
+        public async Task<IActionResult> OnGetAsync(int id)
         {
-            
+            Sales = saleRepository.FindById(id);
             return Page();
         }
     }

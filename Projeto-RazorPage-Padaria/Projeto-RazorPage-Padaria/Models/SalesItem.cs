@@ -9,5 +9,9 @@
 
         }
 
+        public double returnQuantity()
+        {
+            return this.Price * this.Quantity;
+        }
     }
 }
