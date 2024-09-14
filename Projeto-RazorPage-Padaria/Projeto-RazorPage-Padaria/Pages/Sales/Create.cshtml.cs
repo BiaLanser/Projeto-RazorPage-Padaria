@@ -9,7 +9,6 @@ using Projeto_RazorPage_Padaria.Data;
 using Projeto_RazorPage_Padaria.Models;
 using Projeto_RazorPage_Padaria.Enumerations;
 using Projeto_RazorPage_Padaria.Enumerations.Utilities;
-using Projeto_RazorPage_Padaria.Models;
 using Projeto_RazorPage_Padaria.Repository;
 using Microsoft.EntityFrameworkCore;
 using System.Text.Json;

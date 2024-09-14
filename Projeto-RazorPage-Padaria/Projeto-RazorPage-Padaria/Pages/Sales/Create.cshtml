@@ -230,7 +230,7 @@
                 salesItems: selectedProducts.map(product => ({
                     id: product.id,
                     description: product.description,  
-                    price: product.price,
+                    price: parseFloat(product.price),
                     quantity: product.quantity  
                 }))
             }

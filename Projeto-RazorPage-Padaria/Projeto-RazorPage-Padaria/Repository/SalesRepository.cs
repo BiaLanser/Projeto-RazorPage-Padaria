@@ -56,6 +56,11 @@ namespace Projeto_RazorPage_Padaria.Repository
                     }
 
                     transaction.Commit();
+                    if (t.Buyer.Id != 12)
+                    {
+                        int points = CalculatePoints(t.GetFinalPrice());
+                        AlterCustomerPoints(t.Buyer.Id, points);
+                    }
                 }
             }
 
@@ -131,7 +136,7 @@ namespace Projeto_RazorPage_Padaria.Repository
                 }
                 foreach (Sale sales in salesList)
                 {
-                    string salesItemsQuery = "select item.itemid, p.description, p.price, item.quantity FROM salesproducts item INNER JOIN sales s ON s.id = item.saleid INNER JOIN products p ON p.id = item.itemid WHERE s.id = @id";
+                    string salesItemsQuery = "select item.itemid, p.description, p.price, item.quantity FROM salesproducts item INNER JOIN sales s ON s.id = item.saleid INNER JOIN products p ON p.id = item.productid WHERE s.id = @id";
                     using (NpgsqlCommand command = new(salesItemsQuery, connection))
                     {
                         command.Parameters.Clear();
@@ -239,5 +244,37 @@ namespace Projeto_RazorPage_Padaria.Repository
                 return sale;
             }
         }
+
+
+        private int CalculatePoints(double saleValue)
+        {
+            double total = 0.00;
+            int points = 0;
+
+            while(total < saleValue)
+            {
+                total += 5.00;
+                points++;
+            }
+            return points;
+        }
+        private void AlterCustomerPoints(int? customerId, int points)
+        {
+
+            string updateQuery = "update customers set points = points + @points where id = @customerid";
+
+            using(NpgsqlConnection connection = new NpgsqlConnection(_connectionString))
+            {
+                connection.Open();
+                using(NpgsqlCommand command = new NpgsqlCommand(updateQuery, connection))
+                {
+                    command.Parameters.AddWithValue("@points", points);
+                    command.Parameters.AddWithValue("@customerid", customerId);
+
+                    command.ExecuteNonQuery();
+                }
+            }
+        }
     }
+
 }
