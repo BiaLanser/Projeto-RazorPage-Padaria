@@ -53,7 +53,7 @@ namespace Projeto_RazorPage_Padaria.Pages.Sales
             var sales = _saleRepository.FindById(id);
             if (sales != null)
             {
-                
+                _saleRepository.Delete(id);
                 
             }
 

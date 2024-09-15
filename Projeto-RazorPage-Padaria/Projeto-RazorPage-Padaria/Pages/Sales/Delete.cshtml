@@ -1,28 +1,74 @@
 ﻿@page
+@using Projeto_RazorPage_Padaria.Models
 @model Projeto_RazorPage_Padaria.Pages.Sales.DeleteModel
 
 @{
     ViewData["Title"] = "Delete";
 }
 
-<h1>Delete</h1>
+<h1 class="text-light">Delete</h1>
 
-<h3>Are you sure you want to delete this?</h3>
+<h3 class="text-light">Are you sure you want to delete this?</h3>
 <div>
-    <h4>Sales</h4>
+    <h4 class="text-light">Sale: @Html.DisplayFor(e => e.Sales.Id)</h4>
     <hr />
     <dl class="row">
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Sales.PaymentForm)
+        <dt class="col-sm-2 text-light">
+            Payment Form
         </dt>
-        <dd class="col-sm-10">
+        <dd class="col-sm-10 text-light">
             @Html.DisplayFor(model => model.Sales.PaymentForm)
         </dd>
+        <dt class="col-sm-2 text-light">
+            Customer
+        </dt>
+        <dd class="col-sm-10 text-light">
+            @Html.DisplayFor(model => model.Sales.Buyer!.Name)
+        </dd>
+        <dt class="col-sm-2 text-light">
+            Document
+        </dt>
+        <dd class="col-sm-10 text-light">
+            @Html.DisplayFor(model => model.Sales.Buyer!.Document)
+        </dd>
     </dl>
+    <div class="container">
+        <table class="table table-striped table-dark">
+            <thead>
+                <tr>
+                    <th>Product Id</th>
+                    <th>Description</th>
+                    <th>Price</th>
+                    <th>Quantity</th>
+                    <th>Total</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (SalesItem item in Model.Sales.ProductList)
+                {
+                    <tr>
+                        <td>@Html.DisplayFor(modelItem => item.Id)</td>
+                        <td>@Html.DisplayFor(modelItem => item.Description)</td>
+                        <td>@Html.DisplayFor(modelItem => item.Price)</td>
+                        <td>@Html.DisplayFor(modelItem => item.Quantity)</td>
+                        <td>@item.returnQuantity().ToString("F2")</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <div class="row">
+            <dt class="col-sm-2 text-light">
+                Total:
+            </dt>
+            <dd class="col-sm-10 text-light">
+                @Model.Sales.GetFinalPrice().ToString("F2")
+            </dd>
+        </div>
+    </div>
     
     <form method="post">
         <input type="hidden" asp-for="Sales.Id" />
         <input type="submit" value="Delete" class="btn btn-danger" /> |
-        <a asp-page="./Index">Back to List</a>
+        <button class="btn btn-success"><a class="text-light" asp-page="./Index">Back to List</a></button>
     </form>
 </div>

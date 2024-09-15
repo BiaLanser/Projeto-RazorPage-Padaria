@@ -15,6 +15,15 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <Compile Remove="Pages\Sales\Edit.cshtml.cs" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Content Remove="Pages\Sales\Edit.cshtml" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Microsoft.AspNet.Mvc" Version="5.3.0" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.8" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.8">
 			<PrivateAssets>all</PrivateAssets>
