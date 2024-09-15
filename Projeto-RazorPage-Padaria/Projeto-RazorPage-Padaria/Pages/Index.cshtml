@@ -1,15 +1,41 @@
 ﻿@page
 @model IndexModel
+
 @{
     ViewData["Title"] = "Home page";
 }
+<style>
+    .btn-custom {
+        background-color: #252B30;
+        width: 300px;
+        border-radius: 30px;
+        height: 300px;
+        border: 1px solid #007bff;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-decoration: none;
+    }
+</style>
+<div>
+    <div class="bg-dark" style="padding: 50px;">
+        <div class="d-flex justify-content-center align-items-center gap-5" style="margin-top: 150px">
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
-<a>
-    <div>
+            <a class="btn-custom" href="/Products/Index">
+                <h2 class="text-light">Products</h2>
+                <i class="bi bi-cup text-light" style="font-size: 6rem;"></i>
+            </a>
 
+            <a class="btn-custom" href="/Customers/Index">
+                <h2 class="text-light">Customers</h2>
+                <i class="bi bi-people text-light" style="font-size: 6rem;"></i>
+            </a>
+
+            <a class="btn-custom" href="/Sales/Index">
+                <h2 class="text-light">Sales</h2>
+                <i class="bi bi-cart text-light" style="font-size: 6rem;"></i>
+            </a>
+        </div>
     </div>
-</a>
+</div>
