@@ -11,30 +11,29 @@ using Projeto_RazorPage_Padaria.Enumerations;
 using Projeto_RazorPage_Padaria.Enumerations.Utilities;
 using Projeto_RazorPage_Padaria.Models;
 using Projeto_RazorPage_Padaria.Repository;
+using Microsoft.EntityFrameworkCore;
 
 namespace Projeto_RazorPage_Padaria.Pages.Sales
 {
     public class CreateModel : PageModel
     {
         private SaleRepository _salesRepository;
+        private readonly Projeto_RazorPage_Padaria.Data.ConnectionDB _context;
         public PaymentForm SelectedPaymentForm { get; set; }
         public IEnumerable<SelectListItem> PaymentFormsAvailable { get; set; }
-        public List<Costomers> CostumerList { get; set; } = new List<Costomers>()
-        {
-            new Costomers { Id = 8, Name = "Pedro", Document = "123", Points = 0 },
-            new Costomers { Id = 9, Name = "Juão", Document = "12345", Points = 0 },
-            new Costomers { Id = 11, Name = "Mabily", Document = "12345", Points = 5 },
-            new Costomers { Id = 10, Name = "Maikon", Document = "12345", Points = 10 },
-            new Costomers { Id = 12, Name = "Consumidor Final", Document = "0", Points = 0 }
-        };
-        public CreateModel(SaleRepository context)
+        public List<Costomers> CostumerList { get; set; } = new List<Costomers>();
+        public List<Product> ProductList = new();
+        public CreateModel(SaleRepository context, Projeto_RazorPage_Padaria.Data.ConnectionDB contextDb)
         {
             PaymentFormsAvailable = EnumUtilities.GetSelectList<PaymentForm>();
             _salesRepository = context;
+            _context = contextDb;
         }
 
         public IActionResult OnGet()
         {
+            CostumerList = _context.Costumers.AsNoTracking().ToList();
+            ProductList = _context.Product.AsNoTracking().ToList();
             return Page();
         }
 
