@@ -39,11 +39,12 @@
 						@Html.DisplayFor(modelItem => item.Price)
 					</td>
 					<td class="d-flex justify-content-end gap-3">
-						<a class="btn btn-outline-primary" asp-page="./Edit" asp-route-id="@item.Id">
+						<a class="btn btn-outline-primary" asp-page="./Details" asp-route-id="@item.Id">
 							<i class="bi bi-zoom-in"></i>
 						</a>
-						<a class="btn btn-outline-warning" asp-page="./Details" asp-route-id="@item.Id">
-							<i class="bi bi-gear"></i>
+						<a class="btn btn-outline-warning" asp-page="./Edit" asp-route-id="@item.Id">
+							<i class="bi bi-pencil-square"></i>
+
 						</a>
 						<a class="btn btn-outline-danger" asp-page="./Delete" asp-route-id="@item.Id">
 							<i class="bi bi-trash pb-1"></i>

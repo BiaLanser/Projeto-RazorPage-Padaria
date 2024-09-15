@@ -2,43 +2,41 @@
 @model Projeto_RazorPage_Padaria.Pages.Costumers.CreateModel
 
 @{
-    ViewData["Title"] = "Create";
+	ViewData["Title"] = "Create";
 }
-
-<h1>Create</h1>
-
-<h4>Costumer</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form method="post">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Costumer.Name" class="control-label"></label>
-                <input asp-for="Costumer.Name" class="form-control" />
-                <span asp-validation-for="Costumer.Name" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Costumer.Document" class="control-label"></label>
-                <input asp-for="Costumer.Document" class="form-control" />
-                <span asp-validation-for="Costumer.Document" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Costumer.Points" class="control-label"></label>
-                <input asp-for="Costumer.Points" class="form-control" />
-                <span asp-validation-for="Costumer.Points" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-        </form>
-    </div>
-</div>
-
-<div>
-    <a asp-page="Index">Back to List</a>
+<div class="container bg-dark w-50 mx-auto text-light">
+	<h1>Create</h1>
+	<hr />
+	<div class="row">
+		<div class="col-md-4">
+			<form method="post">
+				<div asp-validation-summary="ModelOnly" class="text-danger"></div>
+				<div class="form-group">
+					<label asp-for="Costumer.Name" class="control-label"></label>
+					<input asp-for="Costumer.Name" class="form-control" />
+					<span asp-validation-for="Costumer.Name" class="text-danger"></span>
+				</div>
+				<div class="form-group">
+					<label asp-for="Costumer.Document" class="control-label"></label>
+					<input asp-for="Costumer.Document" class="form-control" />
+					<span asp-validation-for="Costumer.Document" class="text-danger"></span>
+				</div>
+				<div class="form-group">
+					<label asp-for="Costumer.Points" class="control-label"></label>
+					<input asp-for="Costumer.Points" class="form-control" />
+					<span asp-validation-for="Costumer.Points" class="text-danger"></span>
+				</div>
+				<div class="d-flex gap-3 mt-4 w-100">
+					<a asp-page="./Index" class="btn btn-secondary" style="width: 50%;">Back to List</a>
+					<input type="submit" value="Create" class="text-light btn btn-warning" style="width: 50%;" />
+				</div>
+			</form>
+		</div>
+	</div>
 </div>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+	@{
+		await Html.RenderPartialAsync("_ValidationScriptsPartial");
+	}
 }

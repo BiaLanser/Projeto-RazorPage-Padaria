@@ -4,11 +4,10 @@
 @{
     ViewData["Title"] = "Details";
 }
-
+<div class="container bg-dark w-50 mx-auto text-light">
 <h1>Details</h1>
 
-<div>
-    <h4>Costumer</h4>
+    <div class="col-10">
     <hr />
     <dl class="row">
         <dt class="col-sm-2">
@@ -30,8 +29,9 @@
             @Html.DisplayFor(model => model.Costumer.Points)
         </dd>
     </dl>
+        <div class="d-flex gap-3 mt-4 w-50">
+            <a asp-page="./Edit" asp-route-id="@Model.Costumer.Id" class="text-light btn btn-warning" style="width: 50%;">Edit</a>
+            <a asp-page="./Index" class="btn btn-secondary" style="width: 50%;">Back to List</a>
+        </div>
 </div>
-<div>
-    <a asp-page="./Edit" asp-route-id="@Model.Costumer.Id">Edit</a> |
-    <a asp-page="./Index">Back to List</a>
-</div>
+   

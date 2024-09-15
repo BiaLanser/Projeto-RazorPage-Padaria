@@ -2,30 +2,33 @@
 @model Projeto_RazorPage_Padaria.Pages.Products.DetailsModel
 
 @{
-    ViewData["Title"] = "Details";
+	ViewData["Title"] = "Details";
 }
+<div class="container bg-dark w-50 mx-auto text-light">
+	<h1>Details</h1>
+	<div class="row">
+		<div class="col-10">
+			<hr />
+			<dl class="row">
+				<dt class="col-sm-2">
+					@Html.DisplayNameFor(model => model.Product.Description)
+				</dt>
+				<dd class="col-sm-10">
+					@Html.DisplayFor(model => model.Product.Description)
+				</dd>
+				<dt class="col-sm-2">
+					@Html.DisplayNameFor(model => model.Product.Price)
+				</dt>
+				<dd class="col-sm-10">
+					@Html.DisplayFor(model => model.Product.Price)
+				</dd>
+			</dl>
+			<div class="d-flex gap-3 mt-4 w-50">
+				<a asp-page="./Index" class="btn btn-secondary" style="width: 50%;">Back to List</a>
+				<a asp-page="./Edit" asp-route-id="@Model.Product.Id" class="text-light btn btn-warning" style="width: 50%;">Edit</a>
+			</div>
 
-<h1>Details</h1>
 
-<div>
-    <h4>Product</h4>
-    <hr />
-    <dl class="row">
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Product.Description)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Product.Description)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Product.Price)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Product.Price)
-        </dd>
-    </dl>
-</div>
-<div>
-    <a asp-page="./Edit" asp-route-id="@Model.Product.Id">Edit</a> |
-    <a asp-page="./Index">Back to List</a>
-</div>
+		</div>
+	</div>
+
