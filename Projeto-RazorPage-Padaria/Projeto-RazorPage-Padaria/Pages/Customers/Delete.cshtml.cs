@@ -7,16 +7,18 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using Projeto_RazorPage_Padaria.Data;
 using Projeto_RazorPage_Padaria.Models;
+using Projeto_RazorPage_Padaria.Repository;
 
 namespace Projeto_RazorPage_Padaria.Pages.Costumers
 {
     public class DeleteModel : PageModel
     {
         private readonly Projeto_RazorPage_Padaria.Data.ConnectionDB _context;
-
-        public DeleteModel(Projeto_RazorPage_Padaria.Data.ConnectionDB context)
+        private readonly SaleRepository _saleRepositoy;
+		public DeleteModel(Projeto_RazorPage_Padaria.Data.ConnectionDB context, SaleRepository saleRepository)
         {
             _context = context;
+            _saleRepositoy = saleRepository;
         }
 
         [BindProperty]
@@ -30,6 +32,7 @@ namespace Projeto_RazorPage_Padaria.Pages.Costumers
             }
 
             var costumer = await _context.Costumers.FirstOrDefaultAsync(m => m.Id == id);
+            costumer.CostumerTied = _saleRepositoy.IsCustomerTied(costumer.Id);
 
             if (costumer == null)
             {

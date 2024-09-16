@@ -8,13 +8,16 @@ namespace Projeto_RazorPage_Padaria.Models
     public class Costomers
     {
         [Column("id")]
-        public int? Id { get; set; }
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public int Id { get; set; }
         [Column("name")]
         public string Name { get; set; }
         [Column("document")]
         public string Document { get; set; }
         [Column("points")]
         public int Points { get; set; }
+        [NotMapped]
+        public bool CostumerTied { get; set; } = false;
 
         private string connectionString = "Host=dpg-crcb7cjqf0us738ikg5g-a.oregon-postgres.render.com;Port=5432;Username=moutsmaster;Password=HLnW2jj3GqvAlyo2HLnmtdCdo4uL1TJ7;Database=mouts_padaria";
 

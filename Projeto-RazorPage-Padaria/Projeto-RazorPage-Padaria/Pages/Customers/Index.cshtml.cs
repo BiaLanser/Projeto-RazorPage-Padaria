@@ -7,12 +7,15 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using Projeto_RazorPage_Padaria.Data;
 using Projeto_RazorPage_Padaria.Models;
+using Projeto_RazorPage_Padaria.Repository;
 
 namespace Projeto_RazorPage_Padaria.Pages.Costumers
 {
     public class IndexModel : PageModel
     {
         private readonly Projeto_RazorPage_Padaria.Data.ConnectionDB _context;
+        private readonly SaleRepository _salesRepositoy;
+
 
         public IndexModel(Projeto_RazorPage_Padaria.Data.ConnectionDB context)
         {
@@ -24,6 +27,7 @@ namespace Projeto_RazorPage_Padaria.Pages.Costumers
         public async Task OnGetAsync()
         {
             Costumer = await _context.Costumers.ToListAsync();
+            
         }
     }
 }

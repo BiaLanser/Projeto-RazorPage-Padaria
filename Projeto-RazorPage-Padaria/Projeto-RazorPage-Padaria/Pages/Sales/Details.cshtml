@@ -68,13 +68,10 @@
 <div>
     <button class="btn btn-outline-primary"><a class="text-light"asp-page="./Index">Back to List</a></button>
     <button class="btn btn-outline-danger" id="generate-pdf-btn">
-        <i class="bi bi-file-arrow-down"></i>
+        <i class="bi bi-file-arrow-down"></i> Baixar comprovante
     </button>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-
-            
-
             const { jsPDF } = window.jspdf;
             window.html2canvas = html2canvas;
 

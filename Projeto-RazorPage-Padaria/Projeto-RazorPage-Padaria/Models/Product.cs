@@ -11,7 +11,8 @@ namespace Projeto_RazorPage_Padaria.Models
         public string Description { get; set; }
         [Column("price")]
         public double Price { get; set; }
-
+        [NotMapped]
+        public bool IsProductTied { get; set; } = true;
         public Product() { }
         public Product(string Description, double Price)
         {

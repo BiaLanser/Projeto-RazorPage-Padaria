@@ -20,10 +20,7 @@ namespace Projeto_RazorPage_Padaria.Repository
             {
                 throw new InvalidDataException("Sale already has an id");
             }
-            else if (t.Buyer.Id is null)
-            {
-                t.Buyer.Id = 12;
-            }
+            
            /*List<SalesItem> productsLackingId = t.ProductList.Where(x => x.Id is null).ToList();
             if (productsLackingId.Count > 0) {
                 throw new InvalidDataException("There an item in the sale which doesn´t have an Id");
@@ -305,6 +302,38 @@ namespace Projeto_RazorPage_Padaria.Repository
                 }
             }
         }
+
+        public bool IsCustomerTied(int id)
+        {
+            string validateCustomerSql = "select distinct 1 from sales sale inner join customers cust on cust.id = sale.customerId  where customerId = @customerId";
+            using(NpgsqlConnection connection = new(_connectionString))
+            {
+                connection.Open();
+                using (NpgsqlCommand command = new(validateCustomerSql, connection)) {
+
+                    command.Parameters.Clear();
+                    command.Parameters.AddWithValue("@customerId", id);
+                    var reader = command.ExecuteReader();
+                    return reader.HasRows;
+                }
+            }
+        }
+        public bool IsProductTied(int id)
+        {
+			string validateProductSql = "select distinct 1 from salesproducts sale inner join products prod on prod.id = sale.productid where sale.productid = @productCode;";
+			using (NpgsqlConnection connection = new(_connectionString))
+			{
+				connection.Open();
+				using (NpgsqlCommand command = new(validateProductSql, connection))
+				{
+
+					command.Parameters.Clear();
+					command.Parameters.AddWithValue("@productCode", id);
+					var reader = command.ExecuteReader();
+					return reader.HasRows;
+				}
+			}
+		}
+	}
     }
 
-}

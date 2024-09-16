@@ -29,13 +29,25 @@
 				@Html.DisplayFor(model => model.Costumer.Points)
 			</dd>
 
-			<form method="post" class="form-group d-flex gap-3 mt-4">
+			<form method="post" id="form-submit" class="form-group d-flex gap-3 mt-4">
 				<div class="form-group d-flex gap-3 mt-4 w-50">
 					<input type="hidden" asp-for="Costumer.Id" />
 					<a asp-page="./Index" class="btn btn-secondary" style="width: 50%;">Back to List</a>
-					<input type="submit" value="Delete" class="btn btn-danger" style="width: 50%;" />
+					<input id="btnSubmit" type="submit" value="Delete" class="btn btn-danger" style="width: 50%;" />
 				</div>
 			</form>
 		</dl>
 	</div>
 </div>
+<script>
+	const deleteForm = document.getElementById("form-submit")
+	deleteForm.addEventListener("submit", (e)=>{
+		e.preventDefault();
+		if ('@Model.Costumer.CostumerTied.ToString()' == 'True') {
+			const notyf = new Notyf();
+			notyf.error("Customer is tied to a sale, and it cannot be deleted")
+		}else{
+			deleteForm.submit()
+		}
+	})
+</script>
