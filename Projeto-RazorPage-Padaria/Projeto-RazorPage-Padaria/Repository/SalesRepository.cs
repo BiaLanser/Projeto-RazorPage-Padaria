@@ -273,7 +273,7 @@ namespace Projeto_RazorPage_Padaria.Repository
 
 
 
-        private int CalculatePoints(double saleValue)
+        public int CalculatePoints(double saleValue)
         {
             double total = 0.00;
             int points = 0;
