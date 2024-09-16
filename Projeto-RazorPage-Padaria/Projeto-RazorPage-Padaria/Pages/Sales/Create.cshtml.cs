@@ -12,6 +12,7 @@ using Projeto_RazorPage_Padaria.Enumerations.Utilities;
 using Projeto_RazorPage_Padaria.Repository;
 using Microsoft.EntityFrameworkCore;
 using System.Text.Json;
+using System.Text;
 
 namespace Projeto_RazorPage_Padaria.Pages.Sales
 {
@@ -76,10 +77,25 @@ namespace Projeto_RazorPage_Padaria.Pages.Sales
                 sale.PaymentForm = customerOrder.PaymentForm ;
                 try
                 {
-                    _salesRepository.Create(sale);
-                    return RedirectToPage("/Sales/Index");
+                   Sale saleGenerated =_salesRepository.Create(sale);
+                    var url = "http://localhost:5268/api/v1/Sale";
+                    BodySaleModel bodyRequest = new BodySaleModel()
+                    {
+                        CustomerId = saleGenerated.Buyer.Id,
+                        Id = (int)saleGenerated.Id,
+                        FinalPrice = saleGenerated.GetFinalPrice(),
+                        Points = _salesRepository.CalculatePoints(saleGenerated.GetFinalPrice())
+                    };
+                    using var client = new HttpClient();
+                    var json = JsonSerializer.Serialize(bodyRequest);
+					var content = new StringContent(json, Encoding.UTF8, "application/json");
+                    Console.WriteLine(json);
+					var response = await client.PostAsync(url, content);
+                    response.EnsureSuccessStatusCode();
+					return RedirectToPage("/Sales/Index");
                 }
                 catch (Exception ex) {
+                    Console.WriteLine(ex.Message);
                     ModelState.AddModelError("", "An error occurred while creating the sale. Please try again.");
                     return Page();
                 }
